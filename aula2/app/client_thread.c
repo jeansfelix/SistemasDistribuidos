@@ -6,6 +6,7 @@ int main(int argc, char *argv[]) {
   char *servIP;                /* server IP */
   unsigned short servPort;     /* server port */
   char str[100];
+  char opEscrita[100];
   int n;
 
   if (argc != 3) 
@@ -27,6 +28,8 @@ int main(int argc, char *argv[]) {
     str[n] = '\n';
     
     if (WriteN(sock, str, ++n) <= 0) ExitWithError("WriteN() failed");
+
+    if (strcmp(opEscrita, "sair") == 0) break;
 
     /* Receive the response */
     if (ReadN(sock, str, 100) < 0) ExitWithError("ReadLine() failed");
