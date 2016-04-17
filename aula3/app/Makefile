@@ -4,7 +4,7 @@
 
 VERSION = 1.0
 
-SERVER = server_thread.c
+SERVER = server.c
 CLIENT = client.c
 SRV = srv
 CLI = cli

@@ -1,4 +1,4 @@
-// an echo client 
+// echo client 
 #include "mysocket.h"  
 
 int main(int argc, char *argv[]) {
@@ -8,7 +8,8 @@ int main(int argc, char *argv[]) {
   char str[100];
   int n;
 
-  if (argc != 3) {
+  if (argc != 3) 
+  {
     ExitWithError("Usage: client <remote server IP> <remote server Port>");    
   }
 
@@ -17,22 +18,29 @@ int main(int argc, char *argv[]) {
 
   /* Create a connection */
   sock = ConnectToServer(servIP, servPort);
+  
+  puts("Conexão iniciada!");
 
-  for(;;) {
-   /* Write msg */
-   scanf("%99[^\n]%*c",str);
-   n = strlen(str);
-   str[n] = '\n';
-   if (WriteN(sock, str, ++n) <= 0)
-     { ExitWithError("WriteN() failed"); }
-   if (strncmp(str, "quit", 4) == 0) break;
+  for(;;) 
+  {
+    /* Write msg */
+    scanf(" %[^\n]",str);
+    n = strlen(str);
+    str[n] = '\n';
+    
+    if (WriteN(sock, str, ++n) <= 0) ExitWithError("WriteN() failed");
 
-   /* Receive the response */
-   if (ReadLine(sock, str, 99) < 0)
-    { ExitWithError("ReadLine() failed");
-   } else printf("%s",str);
-   
+    /* Receive the response */
+    if (ReadN(sock, str, 100) < 0) ExitWithError("ReadLine() failed");
+
+    if (strcmp(str, "sair") == 0) break;
+    
+    str[strlen(str)] = '\n';
+    
+    printf("%s",str);
   }
+
+  puts("Conexão encerrada!");
 
   close(sock);
   return 0;
